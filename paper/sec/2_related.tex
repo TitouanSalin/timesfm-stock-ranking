@@ -1,0 +1,21 @@
+\section{Related Work}
+\label{sec:related}
+
+\paragraph{Predictable patterns in returns.}
+Stocks that fell over the past week tend to rebound (short-term reversal)~\cite{jegadeesh1990evidence,lehmann1990fads}, and winners of the past year, skipping the last month, tend to keep winning (momentum)~\cite{jegadeesh1993returns,carhart1997persistence}.
+Prices drift after earnings surprises~\cite{bernard1989post,livnat2006comparing} and analyst revisions~\cite{chan1996momentum}, and profitability and value carry information~\cite{novymarx2013other,fama2015five}.
+Many anomalies weaken once trading costs are charged~\cite{novymarx2016taxonomy}, especially short-horizon ones.
+
+\paragraph{Machine learning for stock selection.}
+Gu \etal~\cite{gu2020empirical} show that trees and neural networks improve monthly return prediction from firm characteristics.
+Krauss \etal~\cite{krauss2017deep} report large gross profits from daily statistical arbitrage with deep networks and gradient-boosted trees, profits that shrink after costs.
+We use LightGBM~\cite{ke2017lightgbm}, trained on ranked features as in~\cite{gu2020empirical}, as the main conventional model.
+
+\paragraph{Time-series foundation models.}
+TimesFM~\cite{das2024timesfm} is a decoder-only transformer over patches of a series, building on patch-based models~\cite{nie2023patchtst}; Chronos~\cite{ansari2024chronos}, Moirai~\cite{woo2024moirai} and Lag-Llama~\cite{rasul2023lagllama} pursue the same zero-shot goal.
+They are mainly evaluated on forecasting accuracy.
+We instead measure the economic value of TimesFM~3~\cite{timesfm3} forecasts for ranking stocks after costs.
+
+\paragraph{Backtest overfitting and data pitfalls.}
+The Deflated Sharpe ratio~\cite{bailey2014deflated} corrects a Sharpe ratio for the number of trials, Harvey \etal~\cite{harvey2016cross} call for higher significance thresholds, and purging overlapping labels prevents a subtler leak~\cite{lopezdeprado2018advances}.
+Ignoring delisting returns biases returns upward~\cite{shumway1997delisting}, and split-adjusted I/B/E/S data distort ratios to past prices~\cite{payne2003ibes}.

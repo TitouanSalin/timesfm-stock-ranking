@@ -1,0 +1,57 @@
+% Left: Rank IC by year. Right: net active return against cost. Data from export_data.py.
+\pgfplotsset{
+  paperaxis/.style={
+    tick label style={font=\footnotesize, text=black!75},
+    label style={font=\footnotesize},
+    ymajorgrids, grid style={black!9},
+    axis line style={black!35}, tick style={black!35}, tick align=outside,
+    axis x line*=bottom, axis y line*=left,
+    legend style={font=\footnotesize, draw=none, fill=white, fill opacity=0.85, text opacity=1},
+    legend cell align=left,
+  },
+}
+\begin{tikzpicture}
+\begin{axis}[
+  paperaxis, name=ic,
+  width=0.47\textwidth, height=5.0cm,
+  xmin=2004.5, xmax=2025.5, ymin=-0.045, ymax=0.10,
+  xtick={2005,2009,2013,2017,2021,2025},
+  x tick label style={/pgf/number format/1000 sep={}},
+  yticklabel style={/pgf/number format/.cd, fixed, precision=2},
+  ylabel={\ric{} (yearly mean)},
+  legend style={at={(0.5,1.03)}, anchor=south, fill=none}, legend columns=3,
+]
+\fill[black!6] (axis cs:2021.5,-0.045) rectangle (axis cs:2025.5,0.10);
+\node[font=\footnotesize, text=black!60, anchor=north] at (axis cs:2023.5,0.099) {final test};
+\draw[black!45] (axis cs:2004.5,0) -- (axis cs:2025.5,0);
+\addplot[cCand, line width=1.1pt, mark=*, mark size=1.5pt] table[x=year, y=candidate, col sep=tab] {figures/data/rank_ic_by_year.tsv};
+\addlegendentry{Primary model}
+\addplot[cTfmFt, line width=1.1pt, mark=triangle*, mark size=1.9pt] table[x=year, y=tfmft, col sep=tab] {figures/data/rank_ic_by_year.tsv};
+\addlegendentry{TimesFM FT 10k}
+\addplot[cTfmZs, line width=0.9pt, densely dotted, mark=square*, mark size=1.3pt, mark options={solid}] table[x=year, y=tfmzs, col sep=tab] {figures/data/rank_ic_by_year.tsv};
+\addlegendentry{TimesFM zero-shot}
+\end{axis}
+
+\begin{axis}[
+  paperaxis,
+  at={($(ic.east)+(1.2cm,0)$)}, anchor=west,
+  width=0.47\textwidth, height=5.0cm,
+  xmin=1.5, xmax=10.5, ymin=-11, ymax=11,
+  xtick={2,5,10},
+  xlabel={Cost per side (bp)}, ylabel={Net active return (\%/yr)},
+  ytick={-10,-5,0,5,10},
+  legend style={at={(0.02,0.02)}, anchor=south west}, legend columns=2,
+]
+\draw[black!45] (axis cs:1.5,0) -- (axis cs:10.5,0);
+\addplot[cCand, line width=1.1pt, mark=*, mark size=1.5pt] table[x=cost, y=candidate, col sep=tab] {figures/data/cost_sensitivity.tsv};
+\addlegendentry{Primary (2,386\%)}
+\addplot[cRev, line width=0.9pt, dashed, mark=diamond*, mark size=1.9pt, mark options={solid}] table[x=cost, y=reversal, col sep=tab] {figures/data/cost_sensitivity.tsv};
+\addlegendentry{Reversal (4,942\%)}
+\addplot[cLgb, line width=0.9pt, dash dot, mark=pentagon*, mark size=1.7pt, mark options={solid}] table[x=cost, y=lightgbm, col sep=tab] {figures/data/cost_sensitivity.tsv};
+\addlegendentry{LightGBM (4,347\%)}
+\addplot[cTfmFt, line width=1.1pt, mark=triangle*, mark size=1.9pt] table[x=cost, y=tfmft, col sep=tab] {figures/data/cost_sensitivity.tsv};
+\addlegendentry{TimesFM FT (3,535\%)}
+\addplot[cMom, line width=0.9pt, loosely dashed, mark=square*, mark size=1.3pt, mark options={solid}] table[x=cost, y=momentum, col sep=tab] {figures/data/cost_sensitivity.tsv};
+\addlegendentry{Momentum (215\%)}
+\end{axis}
+\end{tikzpicture}

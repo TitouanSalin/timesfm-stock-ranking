@@ -1,0 +1,45 @@
+# Frozen on 2026-11-07, approved by the project owner, before any date of the final test
+# (2022-2025) was evaluated. The final test is run once with these settings and reported
+# as is, even if disappointing. Nothing here may change after its results are seen.
+
+frozen_on: "2026-11-07"
+development_trials: 70          # lines of experiments/registry.jsonl at freezing
+code_hash: "fe89ab7fd4d8"       # qef.walkforward.code_hash() of src/qef at freezing
+spec: config/spec.yaml          # target, universes, portfolio and costs are unchanged
+
+# The model judged by the final test. The others are comparators declared in advance.
+primary: avg3_signals_s1_x40
+
+# Each model of the final test, with its development summary for comparison.
+models:
+  avg3_signals_s1_x40: reports/study_avg/avg3_signals_s1_x40.json
+  ft10k_reversal_s1_x40: reports/study_finetune_10k/ft10k_reversal_s1_x40.json
+  reversal: reports/baselines/reversal.json
+  momentum: reports/baselines/momentum.json
+  lightgbm: reports/baselines/lightgbm.json
+  timesfm_returns_trade: reports/baselines/timesfm_returns_trade.json
+  tfm_finetuned_10k: reports/baselines/tfm_finetuned_10k.json
+
+# Paired comparisons computed on the final test; no other comparison is reported as a result.
+gaps:
+  - [avg3_signals_s1_x40, reversal]
+  - [avg3_signals_s1_x40, momentum]
+  - [avg3_signals_s1_x40, lightgbm]
+  - [avg3_signals_s1_x40, timesfm_returns_trade]
+  - [avg3_signals_s1_x40, tfm_finetuned_10k]
+  - [avg3_signals_s1_x40, ft10k_reversal_s1_x40]
+  - [tfm_finetuned_10k, timesfm_returns_trade]
+  - [ft10k_reversal_s1_x40, reversal]
+
+procedure:
+  primary: >-
+    Equal-weight ranks of five sources: LightGBM on market, accounting and analyst features,
+    averaged over 12 tree settings and lengths and 3 seeds (LightGBMAverage), 5-day reversal,
+    12-1 momentum, 3-month analyst revisions and earnings surprises. 20 stocks, exit rank 40,
+    maximum weight 7.5%.
+  lightgbm: Retrained every year on all past data, as in development.
+  timesfm_finetuned: >-
+    Correlation loss, last 4 layers, 10,000 steps, learning rate 3e-5, batches of 64, 5 seeds.
+    Retrained before 2022 and before 2025 (every 3 years from the start of the test).
+  timesfm_zero_shot: No training. Weights pretrained on data up to 2023, which may favour it early in the test.
+  gpu: Jobs exclude gpunode16, whose GPU corrupts the model weights.

@@ -1,0 +1,55 @@
+%% Format of the ACM International Conference on AI in Finance (ICAIF): two-column ACM
+%% `sigconf`. ICAIF 2026 allowed at most 8 pages, references included, with double-blind
+%% review and no supplementary material. Check the call for papers of the target edition.
+%%
+%% For a double-blind submission, replace the line below with:
+%%   \documentclass[sigconf,review,anonymous]{acmart}
+\documentclass[sigconf]{acmart}
+
+\input{preamble}
+
+%% Rights, DOI and conference information are filled in by ACM after acceptance.
+\setcopyright{none}
+\settopmatter{printacmref=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+
+\begin{document}
+
+\title[Do Time-Series Foundation Models Pick Stocks?]{Do Time-Series Foundation Models Pick Stocks? A Leakage-Controlled Evaluation of TimesFM~3 for Daily Cross-Sectional Equity Ranking}
+
+\author{Titouan Salin}
+\email{titouan.salin@mail.utoronto.ca}
+\affiliation{%
+  \institution{University of Toronto}
+  \city{Toronto}
+  \state{Ontario}
+  \country{Canada}}
+
+\input{sec/0_abstract}
+
+\ccsdesc[500]{Computing methodologies~Machine learning}
+\ccsdesc[300]{Applied computing~Economics}
+
+\keywords{time-series foundation models, TimesFM, stock selection, cross-sectional return prediction, backtest overfitting, transaction costs}
+
+\maketitle
+% Page numbers only, without the conference running heads.
+\pagestyle{plain}
+
+\input{sec/1_intro}
+\input{sec/2_related}
+\input{sec/3_setup}
+\input{sec/4_models}
+\input{sec/5_development}
+\input{sec/6_final}
+\input{sec/7_discussion}
+
+\begin{acks}
+Data access was provided through Wharton Research Data Services (WRDS) under the University of Toronto subscription, and computations ran on the University of Toronto Computer Science Lab clusters.
+The code and drafts of this manuscript were produced with the assistance of an AI coding assistant (Claude, Anthropic) under the author's direction.
+\end{acks}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{main}
+
+\end{document}

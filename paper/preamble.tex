@@ -1,0 +1,27 @@
+%% Packages and macros of this paper, loaded after the ACM class.
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning,calc}
+\usepackage{needspace}
+\usepackage[inline]{enumitem}
+\usepackage[capitalize]{cleveref}
+
+% Series colors: one fixed hue per model in every figure (validated for color-vision deficiencies).
+\definecolor{cCand}{HTML}{2A78D6}
+\definecolor{cRev}{HTML}{EB6834}
+\definecolor{cLgb}{HTML}{1BAF7A}
+\definecolor{cTfmFt}{HTML}{EDA100}
+\definecolor{cTfmZs}{HTML}{E87BA4}
+\definecolor{cMom}{HTML}{008300}
+\definecolor{cDev}{HTML}{CDE2FB}
+\definecolor{cFinal}{HTML}{FBE0D3}
+
+\newcommand{\ric}{Rank~IC}
+\newcommand{\etal}{\emph{et~al.}}
+
+% Reads a generated table body inside a tabular: the primitive input is expandable, so a
+% row of the file may start with \multicolumn or a rule.
+\makeatletter
+\def\tablefile#1{\@@input #1 }
+\makeatother

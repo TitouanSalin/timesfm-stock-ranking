@@ -1,0 +1,11 @@
+# Same two ensembles as config/study_finetune.yaml, with TimesFM fine-tuned over 10,000 steps.
+# On the development period only, fixed before seeing its results. Every run counts as a trial.
+
+ensembles:
+  avg3: [lightgbm_fund_ana_avg, lightgbm_fund_ana_avg_seed1, lightgbm_fund_ana_avg_seed2]
+  ft10k_reversal: [tfm_finetuned_10k, reversal]
+  avg3_signals_ft10k: [avg3, reversal, momentum, revision, sue, tfm_finetuned_10k]
+
+runs:
+  - {model: ft10k_reversal, smooth: 1, exit_rank: 40}
+  - {model: avg3_signals_ft10k, smooth: 1, exit_rank: 40}

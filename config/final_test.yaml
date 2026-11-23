@@ -1,0 +1,10 @@
+# Final test, 2022-2025: the two ensembles declared in config/frozen.yaml, evaluated once.
+
+ensembles:
+  avg3: [lightgbm_fund_ana_avg, lightgbm_fund_ana_avg_seed1, lightgbm_fund_ana_avg_seed2]
+  avg3_signals: [avg3, reversal, momentum, revision, sue]
+  ft10k_reversal: [tfm_finetuned_10k, reversal]
+
+runs:
+  - {model: avg3_signals, smooth: 1, exit_rank: 40}
+  - {model: ft10k_reversal, smooth: 1, exit_rank: 40}

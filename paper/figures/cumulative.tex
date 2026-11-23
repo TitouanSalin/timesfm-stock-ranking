@@ -1,0 +1,31 @@
+% Cumulative net active return, 2005-2025. Data: figures/data/cumulative_active.tsv (export_data.py).
+\begin{tikzpicture}
+\begin{axis}[
+  width=0.93\linewidth, height=5.3cm,
+  xmin=2005, xmax=2026, ymin=-60, ymax=180,
+  xtick={2005,2009,2013,2017,2021,2025},
+  ytick={-50,0,50,100,150},
+  x tick label style={/pgf/number format/1000 sep={}},
+  tick label style={font=\footnotesize, text=black!75},
+  ylabel={Cumulative net active (\%)}, ylabel style={font=\footnotesize},
+  ymajorgrids, grid style={black!9},
+  axis line style={black!35}, tick style={black!35}, tick align=outside,
+  axis x line*=bottom, axis y line*=left,
+  legend style={font=\footnotesize, draw=none, fill=none, at={(0.5,-0.14)}, anchor=north, column sep=5pt},
+  legend columns=3, legend cell align=left,
+]
+\fill[black!6] (axis cs:2022,-60) rectangle (axis cs:2026,180);
+\node[font=\footnotesize, text=black!60, anchor=north] at (axis cs:2024,178) {final test};
+\draw[black!45] (axis cs:2005,0) -- (axis cs:2026,0);
+\addplot[cCand, line width=1.2pt] table[x=t, y=candidate, col sep=tab] {figures/data/cumulative_active.tsv};
+\addlegendentry{Primary model}
+\addplot[cRev, line width=0.9pt, dashed] table[x=t, y=reversal, col sep=tab] {figures/data/cumulative_active.tsv};
+\addlegendentry{Reversal}
+\addplot[cLgb, line width=0.9pt, dash dot] table[x=t, y=lightgbm, col sep=tab] {figures/data/cumulative_active.tsv};
+\addlegendentry{LightGBM}
+\addplot[cTfmFt, line width=1.2pt] table[x=t, y=tfmft, col sep=tab] {figures/data/cumulative_active.tsv};
+\addlegendentry{TimesFM FT}
+\addplot[cTfmZs, line width=0.9pt, densely dotted] table[x=t, y=tfmzs, col sep=tab] {figures/data/cumulative_active.tsv};
+\addlegendentry{TimesFM zero-shot}
+\end{axis}
+\end{tikzpicture}

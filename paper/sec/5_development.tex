@@ -1,0 +1,92 @@
+\section{Development Results (2005--2021)}
+\label{sec:dev}
+
+\begin{table*}[t]
+\caption{Development results, 2005--2021 (4,275 signal dates, 17 yearly folds). The portfolio holds 20 stocks against the equal-weight tradable universe; returns are net of 5\,bp per side unless stated. The DSR accounts for all 70 registered trials. \emph{Selected}: one LightGBM setting chosen each year; \emph{grid average}: 12 settings averaged without selection.}
+\label{tab:dev}
+\footnotesize
+\setlength{\tabcolsep}{5pt}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Model & \ric{} & $t$ & Net active (\%/yr) & IR & IR at 10\,bp & Turnover (\%/yr) & DSR \\
+\midrule
+\tablefile{tables/dev_results.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\caption{Paired differences on the development period, with block-bootstrap intervals (21-day blocks, 2,000 draws). Bold intervals exclude zero; they are not corrected for multiple comparisons.}
+\label{tab:dev-gaps}
+\footnotesize
+\begin{tabular}{@{}lll@{}}
+\toprule
+Comparison (A minus B) & \ric{} difference [95\% CI] & Net return difference, \%/yr [95\% CI] \\
+\midrule
+\tablefile{tables/dev_gaps.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{figure}[t]
+\centering
+\input{figures/cumulative}
+\caption{Cumulative net active return against the equal-weight tradable universe (sum of daily active returns, 5\,bp per side). The shaded area is the final test, where the portfolios restart from cash. TimesFM FT is the 10k-step fine-tuned model.}
+\Description{Line chart of cumulative net active return from 2005 to 2025. The primary model and reversal end near 140 and 130 percent, LightGBM and fine-tuned TimesFM near 80 and 95 percent, and zero-shot TimesFM declines to about minus 40 percent. Reversal gains most of its lead in 2008 to 2010.}
+\label{fig:cumulative}
+\end{figure}
+
+\begin{figure*}[t]
+\centering
+\input{figures/ic_cost}
+\caption{Left: yearly \ric{} of the primary model and TimesFM, with the final test shaded. Right: development net active return against the cost per side; the legend gives each model's annual turnover, which sets the slope of each line.}
+\Description{Left panel: yearly Rank IC from 2005 to 2025 for the primary model, fine-tuned TimesFM and zero-shot TimesFM; the primary model is positive in most years and zero-shot TimesFM often negative. Right panel: net active return at costs of 2, 5 and 10 basis points per side; reversal falls from about 10 to 2 percent, LightGBM from 6.5 to minus 0.4 percent, the primary model from 8.2 to 4.4 percent, fine-tuned TimesFM from 6.4 to 0.8 percent, and momentum stays near 1 percent.}
+\label{fig:ic-cost}
+\end{figure*}
+
+\paragraph{Baselines.}
+\cref{tab:dev} reports the development results, \cref{tab:dev-gaps} the paired comparisons and \cref{fig:cumulative} the cumulative active returns.
+All four simple signals have a positive \ric{} with $t>2$.
+Reversal earns the largest net active return of any single model (+6.9\%/yr, IR 0.54), but it trades 49 times its capital a year and earned most of it in 2008--2010 (+26.6\%/yr, against +1.1\%/yr over 2011--2021).
+LightGBM on market features has a higher \ric{} (0.0263) but a lower IR (0.33): its turnover costs 4.3\% a year at 5\,bp, and its IR turns negative at 10\,bp.
+
+\paragraph{What improves the tabular model.}
+Averaging over the hyperparameter grid significantly raises the \ric{} once accounting and analyst features are present (+0.0051), for each of three seeds (+0.0039 to +0.0052), but not with market features only (+0.0006).
+With more features, choosing one setting a year on a noisy validation metric seems to add more variance than it removes.
+Accounting and analyst features add about 0.003 of \ric{} each and 0.0056 together, an interval that just includes zero, and cut turnover by a quarter.
+The four simple signals lower turnover to 2,386\%/yr and lift the IR from 0.54 to 0.64, a gain within noise.
+The resulting primary model has the best IR among models declared in advance, and it replaces reversal under our rule through its \ric{} (+0.0142, interval [0.0010, 0.0275]).
+Its Newey--West $t$ is 2.8 and its six-factor alpha +4.2\%/yr ($t=1.7$, market beta 1.24), but its DSR of 0.68 stays below 0.95.
+
+\paragraph{TimesFM~3.}
+Zero-shot forecasts show no ranking skill (\ric{} 0.0072 with returns, 0.0038 with log prices), their portfolios trail the benchmark, and as LightGBM features they add nothing measurable.
+Fine-tuning changes the picture: after 1,000 steps the \ric{} rises to 0.0247, significantly above zero-shot for both the \ric{} (+0.0175) and the net return (+5.6\%/yr), but a turnover of 4,633\% keeps the IR at 0.27.
+Training ten times longer leaves the \ric{} unchanged ($-0.0019$), although the training correlation of the last block rises from 0.007 to 0.037, a sign that 1,000 steps under-trained it.
+The 10k-step seeds agree more (mean rank correlation 0.56 against 0.44), resemble reversal less (0.36 against 0.51) and trade less (3,535\%), so the IR rises to 0.39 without a significant gain.
+Fine-tuned TimesFM stays below the primary model in \ric{} ($-0.0107$, interval excluding zero), and adding it to the primary model lowers the IR from 0.64 to 0.56.
+
+\paragraph{A striking but fragile ensemble.}
+Fine-tuned TimesFM combined with reversal gives the highest IR of all 70 trials (0.80), a six-factor alpha of +8.0\%/yr ($t=2.6$) and a DSR of 0.87.
+Its gains over reversal (+2.5\%/yr) and over the primary model (+2.6\%/yr) are not significant, and it depends on crises: its active return reached +61.6\% in 2008, and its IR is 0.53 without 2008--2010, against 0.61 for the primary model.
+It did not replace the primary model, but it was declared as a comparator for the final test.
+
+\begin{table}[t]
+\caption{Variants of the primary model on the development period, declared before their results were computed; none of them can replace it. Active return and turnover in \%/yr, at 5\,bp unless stated.}
+\label{tab:robustness}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Variant & \ric{} & Active & IR & IR 10\,bp & Turnover \\
+\midrule
+\tablefile{tables/robustness.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Robustness and costs.}
+Eleven variants of the primary model declared in advance (\cref{tab:robustness}) keep a \ric{} between 0.030 and 0.034.
+Their IR ranges from 0.24 to 0.64 with a median of 0.50, so the primary model sits at the top of its neighbourhood.
+Removing reversal costs the most (IR 0.24); an exit rank of 50 matches the IR with 40\% less turnover, but choosing it after the fact would be one more selection.
+\cref{fig:ic-cost} shows that turnover, not \ric{}, decides how a model reacts to costs: at 10\,bp the primary model keeps +4.4\%/yr, against +2.0\% for reversal and $-0.4$\% for LightGBM.
+Charging each stock's closing half-spread plus 1\,bp gives the primary model an IR of 0.72, so 5\,bp is conservative for these liquid stocks, before market impact.

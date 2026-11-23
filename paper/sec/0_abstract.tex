@@ -1,0 +1,11 @@
+\begin{abstract}
+Time-series foundation models forecast new series without task-specific training, which raises a practical question: can they pick stocks?
+We evaluate TimesFM~3 on a realistic task.
+Every day it ranks the 100 most liquid U.S.\ stocks by their next five-day return, and a long-only portfolio holds the top 20, net of transaction costs.
+The protocol uses point-in-time CRSP, Compustat and I/B/E/S data, an execution lag of one day and purged yearly walk-forward retraining over 2005--2021.
+All 70 development trials are recorded for Deflated Sharpe ratios, and a final test on 2022--2025 is run once, with a configuration frozen beforehand.
+Zero-shot TimesFM has no ranking skill (\ric{} 0.007), and its forecasts add nothing as features to gradient boosting.
+Fine-tuning its last four layers with a cross-sectional correlation loss gives it a significant but modest signal (\ric{} 0.023, information ratio 0.39).
+This signal is comparable to LightGBM on market data, but adds nothing to the best model, an equal-weight ensemble of grid-averaged LightGBM with accounting and analyst data and four classic signals (information ratio 0.64).
+On the untouched final test, that model earns 6.7\% per year above the equal-weight universe after costs (information ratio 0.60), close to its development estimate but not significant over four years.
+\end{abstract}

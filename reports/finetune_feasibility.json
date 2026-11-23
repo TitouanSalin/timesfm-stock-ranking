@@ -1,0 +1,210 @@
+{
+  "gpu": "NVIDIA RTX A4500",
+  "gpu_memory_gb": 19.6,
+  "total_parameters_millions": 330.7,
+  "train_windows": 1425187,
+  "parity": {
+    "max_abs_gap": 0.0,
+    "typical_size": 0.016153953969478607
+  },
+  "gradients": {
+    "loss": 0.2991943657398224,
+    "all_finite": true,
+    "groups": {
+      "pre_transformer_resblock": {
+        "tensors": 3,
+        "no_grad": 0,
+        "zero_grad": 0,
+        "grad_norm_sq": 0.0014796014311251994
+      },
+      "transformer_stack": {
+        "tensors": 440,
+        "no_grad": 0,
+        "zero_grad": 0,
+        "grad_norm_sq": 0.08485440561465149
+      },
+      "output_head": {
+        "tensors": 2,
+        "no_grad": 0,
+        "zero_grad": 0,
+        "grad_norm_sq": 0.042410760286698906
+      }
+    }
+  },
+  "cost": [
+    {
+      "scope": "head",
+      "trainable_millions": 0.7,
+      "batch": 16,
+      "peak_gb": 1.26,
+      "seconds_per_step": 0.095
+    },
+    {
+      "scope": "head",
+      "trainable_millions": 0.7,
+      "batch": 32,
+      "peak_gb": 1.28,
+      "seconds_per_step": 0.124
+    },
+    {
+      "scope": "head",
+      "trainable_millions": 0.7,
+      "batch": 64,
+      "peak_gb": 1.31,
+      "seconds_per_step": 0.206
+    },
+    {
+      "scope": "head",
+      "trainable_millions": 0.7,
+      "batch": 128,
+      "peak_gb": 1.38,
+      "seconds_per_step": 0.369
+    },
+    {
+      "scope": "last_2",
+      "trainable_millions": 33.5,
+      "batch": 16,
+      "peak_gb": 1.74,
+      "seconds_per_step": 0.107
+    },
+    {
+      "scope": "last_2",
+      "trainable_millions": 33.5,
+      "batch": 32,
+      "peak_gb": 1.92,
+      "seconds_per_step": 0.143
+    },
+    {
+      "scope": "last_2",
+      "trainable_millions": 33.5,
+      "batch": 64,
+      "peak_gb": 2.34,
+      "seconds_per_step": 0.24
+    },
+    {
+      "scope": "last_2",
+      "trainable_millions": 33.5,
+      "batch": 128,
+      "peak_gb": 3.19,
+      "seconds_per_step": 0.43
+    },
+    {
+      "scope": "last_4",
+      "trainable_millions": 66.3,
+      "batch": 16,
+      "peak_gb": 2.22,
+      "seconds_per_step": 0.12
+    },
+    {
+      "scope": "last_4",
+      "trainable_millions": 66.3,
+      "batch": 32,
+      "peak_gb": 2.31,
+      "seconds_per_step": 0.163
+    },
+    {
+      "scope": "last_4",
+      "trainable_millions": 66.3,
+      "batch": 64,
+      "peak_gb": 2.86,
+      "seconds_per_step": 0.274
+    },
+    {
+      "scope": "last_4",
+      "trainable_millions": 66.3,
+      "batch": 128,
+      "peak_gb": 4.0,
+      "seconds_per_step": 0.494
+    },
+    {
+      "scope": "last_8",
+      "trainable_millions": 131.9,
+      "batch": 16,
+      "peak_gb": 3.2,
+      "seconds_per_step": 0.147
+    },
+    {
+      "scope": "last_8",
+      "trainable_millions": 131.9,
+      "batch": 32,
+      "peak_gb": 3.2,
+      "seconds_per_step": 0.203
+    },
+    {
+      "scope": "last_8",
+      "trainable_millions": 131.9,
+      "batch": 64,
+      "peak_gb": 3.91,
+      "seconds_per_step": 0.343
+    },
+    {
+      "scope": "last_8",
+      "trainable_millions": 131.9,
+      "batch": 128,
+      "peak_gb": 5.64,
+      "seconds_per_step": 0.62
+    },
+    {
+      "scope": "full",
+      "trainable_millions": 330.7,
+      "batch": 16,
+      "peak_gb": 6.17,
+      "seconds_per_step": 0.23
+    },
+    {
+      "scope": "full",
+      "trainable_millions": 330.7,
+      "batch": 32,
+      "peak_gb": 6.16,
+      "seconds_per_step": 0.321
+    },
+    {
+      "scope": "full",
+      "trainable_millions": 330.7,
+      "batch": 64,
+      "peak_gb": 7.05,
+      "seconds_per_step": 0.548
+    },
+    {
+      "scope": "full",
+      "trainable_millions": 330.7,
+      "batch": 128,
+      "peak_gb": 10.63,
+      "seconds_per_step": 0.996
+    }
+  ],
+  "overfit": {
+    "scope": "last_4",
+    "steps": 150,
+    "lr": 0.0001,
+    "first_loss": 0.2815159857273102,
+    "last_loss": 0.005197872873395681,
+    "ratio": 0.018463863996805458
+  },
+  "validation_zero_shot": {
+    "pinball": 0.21203522330121055,
+    "rank_ic": -0.01651706726101141,
+    "rank_ic_t": -1.1090879165400362,
+    "n_windows": 49205
+  },
+  "runs": {
+    "pinball": {
+      "training": {
+        "first_quarter_loss": 0.3102741506099701,
+        "last_quarter_loss": 0.3096768753528595,
+        "seconds": 283.1
+      },
+      "validation": {
+        "pinball": 0.21140099837990003,
+        "rank_ic": 0.0006261167144701862,
+        "rank_ic_t": 0.037644858316317004,
+        "n_windows": 49205
+      }
+    },
+    "correlation": {
+      "training": {
+        "failed": "non-finite loss at step 11"
+      }
+    }
+  }
+}

@@ -1,0 +1,60 @@
+\section{Final Test (2022--2025)}
+\label{sec:final}
+
+\begin{table*}[t]
+\caption{Final test, 2022--2025 (997 signal dates), run once with the configuration frozen beforehand. The equal-weight tradable universe earned 11.2\%/yr and the S\&P~500 11.1\%/yr; returns are net of 5\,bp per side. P(IR$>$0) is the probabilistic Sharpe ratio of the active return against zero; the last column repeats the development IR.}
+\label{tab:final}
+\footnotesize
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+Model & \ric{} ($t$) & Return (\%/yr) & Net active (\%/yr) & IR (active $t$) & IR at 10\,bp & P(IR$>$0) & IR, development \\
+\midrule
+\tablefile{tables/final_results.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\begin{table*}[t]
+\caption{The eight paired comparisons declared before the final test, 2022--2025. No interval excludes zero.}
+\label{tab:final-gaps}
+\footnotesize
+\begin{tabular}{@{}lll@{}}
+\toprule
+Comparison (A minus B) & \ric{} difference [95\% CI] & Net return difference, \%/yr [95\% CI] \\
+\midrule
+\tablefile{tables/final_gaps.tex}
+\bottomrule
+\end{tabular}
+\end{table*}
+
+Before opening the final test, we recorded in a configuration file the primary model, six comparators, eight paired comparisons to report, a hash of the code and the number of development trials.
+Each model followed its development procedure, with LightGBM retrained every year and TimesFM before 2022 and 2025, and the results in \cref{tab:final} are reported as they came out.
+
+\begin{table}[t]
+\caption{Net active return by year on the final test, \%/yr at 5\,bp.}
+\label{tab:final-years}
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Model & 2022 & 2023 & 2024 & 2025 \\
+\midrule
+\tablefile{tables/final_by_year.tex}
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The primary model replicates its development performance.}
+It earned 17.8\%/yr, +6.7\%/yr above the equal-weight universe after costs, with an IR of 0.60, against +6.8\%/yr and 0.64 in development.
+It keeps +4.3\%/yr at 10\,bp, its \ric{} is 0.0263 ($t=2.0$), and its largest drawdown is $-25\%$.
+Four years give little power, though: an IR of 0.6 implies an active $t$ of only 1.2, and the active return swings from year to year (+17.1\%, $-6.9$\%, +4.8\% and +11.8\% from 2022 to 2025; \cref{tab:final-years}).
+None of the eight declared comparisons excludes zero (\cref{tab:final-gaps}); for instance, the primary model beats reversal by +3.2\%/yr with an interval of [$-10.3$, +14.1].
+
+\paragraph{Four-year rankings are noisy.}
+Momentum has the best final-test IR (0.69), driven by an active return of +32.4\% in 2024, after a development IR of only 0.09, while reversal falls to 0.24.
+Switching to momentum now would repeat the selection error that the frozen protocol is meant to prevent.
+
+\paragraph{TimesFM on unseen data.}
+Zero-shot TimesFM again shows no skill (\ric{} 0.0053, IR 0.05).
+Fine-tuned TimesFM does better than in development (IR 0.49), and its \ric{} of 0.0194 is the only TimesFM result whose bootstrap interval excludes zero on unseen data ([0.0017, 0.0397]); its gain over zero-shot (+4.9\%/yr) is not significant, and it stays below the primary model.
+The combination with reversal falls from an IR of 0.80 to 0.42, consistent with its dependence on the 2008--2010 crisis.

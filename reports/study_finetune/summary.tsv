@@ -1,0 +1,3 @@
+run	rank_ic	ic_t	active	IR	active_t	IR_measured	IR_prudent	alpha	alpha_t	turnover	cost	DSR	ic_gap	ic_gap_low	ic_gap_high	net_gap	net_gap_low	net_gap_high
+ft_reversal_s1_x40	0.02422	4.91233	0.05811	0.49574	2.17341	0.63890	0.08210	0.04234	1.43514	48.48206	0.04848	0.47868	0.00492	-0.00049	0.01020	-0.01096	-0.04570	0.02449
+avg3_signals_ft_s1_x40	0.03442	5.82558	0.05798	0.51590	2.26806	0.61635	0.24494	0.03018	1.15424	30.44958	0.03045	0.51207	0.01512	0.00209	0.02768	-0.01109	-0.07255	0.04786

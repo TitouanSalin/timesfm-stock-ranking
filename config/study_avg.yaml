@@ -1,0 +1,14 @@
+# Third study, on the development period only, fixed before seeing its results.
+# Question: do more seeds help the grid average, and do the simple signals still add to it?
+# The wider exit buffer is left out, because it lowered the information ratio of all
+# four ensembles in config/study_signals.yaml. Every run counts as a trial.
+
+ensembles:
+  avg3: [lightgbm_fund_ana_avg, lightgbm_fund_ana_avg_seed1, lightgbm_fund_ana_avg_seed2]
+  avg3_rules: [avg3, reversal, momentum]
+  avg3_signals: [avg3, reversal, momentum, revision, sue]
+
+runs:
+  - {model: avg3, smooth: 1, exit_rank: 40}
+  - {model: avg3_rules, smooth: 1, exit_rank: 40}
+  - {model: avg3_signals, smooth: 1, exit_rank: 40}

@@ -1,0 +1,50 @@
+{
+  "settings": {
+    "every": 3,
+    "seeds": "4",
+    "steps": 10000,
+    "scope": "last_4",
+    "lr": 3e-05,
+    "batch_size": 64
+  },
+  "blocks": {
+    "2022": {
+      "train_windows": 6080940,
+      "last_train_date": "2021-12-22",
+      "test_windows": 74007,
+      "tradable_stock_dates": 75287,
+      "first_test_date": "2022-01-03",
+      "last_test_date": "2024-12-31"
+    },
+    "2025": {
+      "train_windows": 6811680,
+      "last_train_date": "2024-12-20",
+      "test_windows": 24577,
+      "tradable_stock_dates": 25000,
+      "first_test_date": "2025-01-02",
+      "last_test_date": "2025-12-31"
+    }
+  },
+  "runs": {
+    "seed4_block2022": {
+      "training": {
+        "first_quarter_loss": -0.017149421075569982,
+        "last_quarter_loss": -0.03934187070545521,
+        "skipped_steps": 339,
+        "seconds": 2823.2
+      },
+      "scoring_seconds": 202.3,
+      "invalid_scores": 0
+    },
+    "seed4_block2025": {
+      "training": {
+        "first_quarter_loss": -0.0144433656412261,
+        "last_quarter_loss": -0.02957019466094623,
+        "skipped_steps": 319,
+        "seconds": 2822.1
+      },
+      "scoring_seconds": 67.3,
+      "invalid_scores": 0
+    }
+  }
+}

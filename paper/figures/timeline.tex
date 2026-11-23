@@ -1,0 +1,36 @@
+% Evaluation protocol: data periods, one walk-forward fold, and the timing of one decision.
+\begin{tikzpicture}[x=0.25cm, y=1cm, font=\footnotesize, every node/.style={inner sep=1pt}]
+  % Data periods (x = years since 1995).
+  \fill[black!10] (0,0) rectangle (10,0.45);
+  \fill[cDev] (10,0) rectangle (27,0.45);
+  \fill[cFinal] (27,0) rectangle (31,0.45);
+  \node at (5,0.225) {warm-up, first training};
+  \node at (18.5,0.225) {development: 17 yearly folds};
+  \node[anchor=south] at (29,0.47) {final test, once};
+  \foreach \x/\label in {0/1995, 10/2005, 27/2022, 31/2026}
+    \node[anchor=north, text=black!65] at (\x,-0.02) {\label};
+
+  % One fold: test year 2010, with purges between phases.
+  \begin{scope}[yshift=-1.05cm]
+    \fill[black!10] (0,0) rectangle (11.85,0.38);
+    \fill[black!22] (12,0) rectangle (14.85,0.38);
+    \fill[cDev!100!black!35] (15,0) rectangle (16,0.38);
+    \node at (5.9,0.19) {train candidates};
+    \node[anchor=south] at (13.4,0.4) {validation};
+    \node[anchor=west] at (16.2,0.19) {test year 2010};
+    \fill[black!10] (0,-0.5) rectangle (14.85,-0.12);
+    \node at (7.4,-0.31) {refit on all data before 2010};
+    \draw[black!55, -{Stealth[length=3pt]}] (16.9,-0.45) node[anchor=west, text=black!65] {6-session purges} -- (15.05,-0.31);
+  \end{scope}
+
+  % Timing of one decision, on its own scale.
+  \begin{scope}[yshift=-2.5cm, x=1.05cm]
+    \draw[black!45] (0,0) -- (6.4,0);
+    \foreach \k in {0,...,6} \draw[black!45] (\k,-0.05) -- (\k,0.05);
+    \node[anchor=north, align=center] at (0,-0.07) {$t$\\signal};
+    \node[anchor=north, align=center] at (1,-0.07) {$t{+}1$\\trade};
+    \node[anchor=north, align=center] at (6,-0.07) {$t{+}6$\\target ends};
+    \draw[cCand, line width=1pt, {Stealth[length=3pt]}-{Stealth[length=3pt]}] (1,0.17) -- (6,0.17);
+    \node[anchor=south] at (3.5,0.19) {target: return from the close of $t{+}1$ to the close of $t{+}6$};
+  \end{scope}
+\end{tikzpicture}

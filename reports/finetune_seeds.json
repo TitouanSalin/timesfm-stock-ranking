@@ -1,0 +1,134 @@
+{
+  "gpu": "NVIDIA RTX A4500",
+  "gpu_memory_gb": 19.6,
+  "total_parameters_millions": 330.7,
+  "train_windows": 1425187,
+  "seed_study": {
+    "settings": {
+      "steps": 1000,
+      "scope": "last_4",
+      "lr": 3e-05,
+      "batch_size": 64
+    },
+    "zero_shot": {
+      "pinball": 0.21203522330121055,
+      "rank_ic": -0.01651706726101141,
+      "rank_ic_t": -1.1090879165400362,
+      "n_windows": 49205
+    },
+    "runs": {
+      "0": {
+        "training": {
+          "first_quarter_loss": -0.0026739291687440836,
+          "last_quarter_loss": -0.04948078672775591,
+          "skipped_steps": 1,
+          "seconds": 284.6
+        },
+        "validation": {
+          "pinball": 0.22029332654463812,
+          "rank_ic": 0.031603106928745135,
+          "rank_ic_t": 2.9332174316292177,
+          "n_windows": 49205
+        }
+      },
+      "1": {
+        "training": {
+          "first_quarter_loss": -0.04100649077660333,
+          "last_quarter_loss": -0.026302865857607684,
+          "skipped_steps": 2,
+          "seconds": 283.7
+        },
+        "validation": {
+          "pinball": 0.22602309757563735,
+          "rank_ic": 0.022217501280304277,
+          "rank_ic_t": 1.305014704482819,
+          "n_windows": 49205
+        }
+      },
+      "2": {
+        "training": {
+          "first_quarter_loss": 0.003428142024204135,
+          "last_quarter_loss": -0.029473027071217076,
+          "skipped_steps": 0,
+          "seconds": 283.6
+        },
+        "validation": {
+          "pinball": 0.4331757236330003,
+          "rank_ic": 0.034562178606545285,
+          "rank_ic_t": 2.1139895985669814,
+          "n_windows": 49205
+        }
+      },
+      "3": {
+        "training": {
+          "first_quarter_loss": -0.0025789542888824436,
+          "last_quarter_loss": -0.05658871402556542,
+          "skipped_steps": 2,
+          "seconds": 283.4
+        },
+        "validation": {
+          "pinball": 0.2245242973992244,
+          "rank_ic": 0.01008927764707705,
+          "rank_ic_t": 0.7109624317049625,
+          "n_windows": 49205
+        }
+      },
+      "4": {
+        "training": {
+          "first_quarter_loss": -0.028285725608140636,
+          "last_quarter_loss": -0.057733826716542695,
+          "skipped_steps": 2,
+          "seconds": 283.3
+        },
+        "validation": {
+          "pinball": 0.3286179922559718,
+          "rank_ic": 0.008666524888314528,
+          "rank_ic_t": 0.4334172140824381,
+          "n_windows": 49205
+        }
+      }
+    },
+    "single_seed_rank_ic": {
+      "mean": 0.021427717870197253,
+      "std": 0.011917263026556133,
+      "min": 0.008666524888314528,
+      "max": 0.034562178606545285
+    },
+    "signals": {
+      "seed_mean_rank": {
+        "rank_ic": 0.027306251601275713,
+        "t": 2.0612268639800564
+      },
+      "reversal": {
+        "rank_ic": 0.03526809116796181,
+        "t": 2.6180920905693297
+      },
+      "momentum": {
+        "rank_ic": -0.0017496960672520932,
+        "t": -0.08409345346553218
+      },
+      "zero_shot": {
+        "rank_ic": -0.01651706726101141,
+        "t": -1.1090879165400362
+      },
+      "with_reversal": {
+        "rank_ic": 0.035278250396619214,
+        "t": 2.696548232627371
+      }
+    },
+    "correlation_of_seed_mean_with": {
+      "reversal": 0.587866899999959,
+      "momentum": 0.24913558782875198,
+      "zero_shot": 0.24681268457036998
+    },
+    "mean_correlation_between_seeds": 0.5128544045920065,
+    "ic_gap_with_reversal": {
+      "mean": -0.007961839566686103,
+      "t": -0.6441045113780032,
+      "ci_95": [
+        -0.028369046005758024,
+        0.01913896934780988
+      ]
+    }
+  }
+}

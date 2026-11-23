@@ -1,0 +1,29 @@
+# Robustness of the working candidate avg3_signals_s1_x40, on the development period only.
+# Fixed before seeing its results. These variations measure how fragile the candidate is:
+# none of them can replace it, because that would be one more selection on the same period.
+# Every run counts as a trial. With 15 or 30 positions, the exit rank and the weight limit
+# keep the same ratios as the specification (2 x and 1.5 / n).
+
+ensembles:
+  avg3: [lightgbm_fund_ana_avg, lightgbm_fund_ana_avg_seed1, lightgbm_fund_ana_avg_seed2]
+  avg3_signals: [avg3, reversal, momentum, revision, sue]
+  no_reversal: [avg3, momentum, revision, sue]
+  no_momentum: [avg3, reversal, revision, sue]
+  no_revision: [avg3, reversal, momentum, sue]
+  no_sue: [avg3, reversal, momentum, revision]
+  seed0_signals: [lightgbm_fund_ana_avg, reversal, momentum, revision, sue]
+  seed1_signals: [lightgbm_fund_ana_avg_seed1, reversal, momentum, revision, sue]
+  seed2_signals: [lightgbm_fund_ana_avg_seed2, reversal, momentum, revision, sue]
+
+runs:
+  - {model: no_reversal, smooth: 1, exit_rank: 40}
+  - {model: no_momentum, smooth: 1, exit_rank: 40}
+  - {model: no_revision, smooth: 1, exit_rank: 40}
+  - {model: no_sue, smooth: 1, exit_rank: 40}
+  - {model: seed0_signals, smooth: 1, exit_rank: 40}
+  - {model: seed1_signals, smooth: 1, exit_rank: 40}
+  - {model: seed2_signals, smooth: 1, exit_rank: 40}
+  - {model: avg3_signals, smooth: 1, exit_rank: 30}
+  - {model: avg3_signals, smooth: 1, exit_rank: 50}
+  - {model: avg3_signals, smooth: 1, exit_rank: 30, n_positions: 15, max_weight: 0.10}
+  - {model: avg3_signals, smooth: 1, exit_rank: 60, n_positions: 30, max_weight: 0.05}

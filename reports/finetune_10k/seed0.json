@@ -1,0 +1,122 @@
+{
+  "settings": {
+    "every": 3,
+    "seeds": "0",
+    "steps": 10000,
+    "scope": "last_4",
+    "lr": 3e-05,
+    "batch_size": 64
+  },
+  "blocks": {
+    "2005": {
+      "train_windows": 1919373,
+      "last_train_date": "2004-12-22",
+      "test_windows": 74313,
+      "tradable_stock_dates": 75249,
+      "first_test_date": "2005-01-03",
+      "last_test_date": "2007-12-31"
+    },
+    "2008": {
+      "train_windows": 2652074,
+      "last_train_date": "2007-12-20",
+      "test_windows": 74708,
+      "tradable_stock_dates": 75599,
+      "first_test_date": "2008-01-02",
+      "last_test_date": "2010-12-31"
+    },
+    "2011": {
+      "train_windows": 3391975,
+      "last_train_date": "2010-12-22",
+      "test_windows": 74686,
+      "tradable_stock_dates": 75310,
+      "first_test_date": "2011-01-03",
+      "last_test_date": "2013-12-31"
+    },
+    "2014": {
+      "train_windows": 4127436,
+      "last_train_date": "2013-12-20",
+      "test_windows": 74500,
+      "tradable_stock_dates": 75537,
+      "first_test_date": "2014-01-02",
+      "last_test_date": "2016-12-30"
+    },
+    "2017": {
+      "train_windows": 4859005,
+      "last_train_date": "2016-12-21",
+      "test_windows": 74840,
+      "tradable_stock_dates": 75310,
+      "first_test_date": "2017-01-03",
+      "last_test_date": "2019-12-31"
+    },
+    "2020": {
+      "train_windows": 5595804,
+      "last_train_date": "2019-12-20",
+      "test_windows": 48107,
+      "tradable_stock_dates": 49881,
+      "first_test_date": "2020-01-02",
+      "last_test_date": "2021-12-22"
+    }
+  },
+  "runs": {
+    "seed0_block2005": {
+      "training": {
+        "first_quarter_loss": -0.036062739035052055,
+        "last_quarter_loss": -0.09884195431111567,
+        "skipped_steps": 14,
+        "seconds": 2857.2
+      },
+      "scoring_seconds": 206.0,
+      "invalid_scores": 0
+    },
+    "seed0_block2008": {
+      "training": {
+        "first_quarter_loss": -0.0317227630650103,
+        "last_quarter_loss": -0.06988506929110574,
+        "skipped_steps": 153,
+        "seconds": 2857.0
+      },
+      "scoring_seconds": 207.1,
+      "invalid_scores": 0
+    },
+    "seed0_block2011": {
+      "training": {
+        "first_quarter_loss": -0.025884301350592526,
+        "last_quarter_loss": -0.056859875204420346,
+        "skipped_steps": 294,
+        "seconds": 2855.6
+      },
+      "scoring_seconds": 207.0,
+      "invalid_scores": 0
+    },
+    "seed0_block2014": {
+      "training": {
+        "first_quarter_loss": -0.022947800459146923,
+        "last_quarter_loss": -0.05677334535404984,
+        "skipped_steps": 371,
+        "seconds": 2854.7
+      },
+      "scoring_seconds": 206.5,
+      "invalid_scores": 0
+    },
+    "seed0_block2017": {
+      "training": {
+        "first_quarter_loss": -0.017044641142441926,
+        "last_quarter_loss": -0.04709502505800926,
+        "skipped_steps": 389,
+        "seconds": 2855.2
+      },
+      "scoring_seconds": 207.5,
+      "invalid_scores": 0
+    },
+    "seed0_block2020": {
+      "training": {
+        "first_quarter_loss": -0.016127744301378366,
+        "last_quarter_loss": -0.03471078433948712,
+        "skipped_steps": 300,
+        "seconds": 2856.2
+      },
+      "scoring_seconds": 133.4,
+      "invalid_scores": 0
+    }
+  }
+}

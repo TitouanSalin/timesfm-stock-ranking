@@ -1,0 +1,56 @@
+\section{Task, Data and Protocol}
+\label{sec:setup}
+
+\paragraph{Prices.}
+We use the CRSP daily stock file from January 1995 to December 2025.
+The training universe defined below spans 7,550 trading days and 4,011 distinct stocks.
+We keep ordinary common shares of U.S.\ companies listed on a U.S.\ exchange, using the share codes known at each date.
+In the current CRSP format, a delisting return sits on a separate row that the standard common-stock filter removes; we keep these rows and set a missing delisting return to $-30\%$~\cite{shumway1997delisting}.
+Nasdaq volumes are adjusted for double counting~\cite{gao2010marketing}.
+Factor returns~\cite{fama2015five,carhart1997persistence} and the S\&P~500 are used only for reporting.
+
+\paragraph{Accounting and analyst data.}
+Quarterly accounting data come from the point-in-time Compustat tables, because later revisions replace the figures investors saw at the time.
+Even there, the main value column matches the first-reported figure in only 60--70\% of quarters before 2015.
+Taking the as-reported column when it is filled, and the main column otherwise, matches the first monthly snapshot in over 99.7\% of quarters from 1998 to 2024.
+A quarter becomes usable only after that snapshot, and a late filing delays the quarters after it.
+Analyst data use the \emph{unadjusted} I/B/E/S consensus for the current fiscal year, divided by the price on the date of the consensus, because the split-adjusted table rewrites past estimates for later splits~\cite{payne2003ibes}.
+A consensus is usable from the day after its statistics date and an earnings surprise from the day after its announcement.
+Records expire after 270, 45 and 100 days respectively.
+
+\paragraph{Universes, target and timing.}
+Each month-end, using only data known then, we build two universes that apply from the next session.
+The \emph{training universe} holds the 1,000 largest stocks by market value with a price of at least \$5 and 252 days of history.
+The \emph{tradable universe} holds the 100 stocks with the largest 63-day median dollar volume among the 500 largest.
+A signal computed after the close of day $t$ is executed at the close of $t{+}1$, and the target is the return from the close of $t{+}1$ to the close of $t{+}6$, minus its mean over the training universe $U_t$:
+\begin{equation}
+y_{i,t} = R_{i,t} - \frac{1}{|U_t|}\sum_{j\in U_t} R_{j,t},\qquad R_{i,t} = \prod_{k=2}^{6} (1 + r_{i,t+k}) - 1.
+\label{eq:target}
+\end{equation}
+Models learn the percentile rank of $y_{i,t}$ within each date.
+
+\paragraph{Portfolio and costs.}
+The long-only portfolio targets 20 equal-weight stocks, with decisions taken every day.
+A holding is sold only when its rank in the tradable universe falls below 40, and the best-ranked stocks replace it.
+A position above 7.5\% is cut back to 5\%, and a delisted holding moves to cash.
+Every trade pays 2, 5 or 10 basis points (bp) per side, 5\,bp being the central scenario; a \emph{measured} scenario charges each stock's closing quoted half-spread plus 1\,bp.
+The benchmark is the equal-weight tradable universe, which earned 10.7\% per year over 2005--2021, like the S\&P~500.
+
+\begin{figure}[t]
+\centering
+\input{figures/timeline}
+\caption{Evaluation protocol. Top: data periods. Middle: one development fold (test year 2010); hyperparameters are chosen on the three preceding years before a refit on all earlier data, with a 6-session purge between phases. Bottom: timing of one decision.}
+\Description{A timeline from 1995 to 2026 with three periods: warm-up and first training from 1995 to 2004, development with 17 yearly folds from 2005 to 2021, and a final test run once from 2022 to 2025. Below, one fold shows training data, three validation years and the test year 2010, separated by purges. At the bottom, a decision timeline shows the signal at day t, the trade at t+1 and the target return from t+1 to t+6.}
+\label{fig:protocol}
+\end{figure}
+
+\paragraph{Walk-forward protocol.}
+Each development year from 2005 to 2021 (17 folds) is predicted by a model trained on all earlier data, with hyperparameters chosen on the three preceding years by validation \ric{} (\cref{fig:protocol}).
+The final test, 2022--2025, is refused by the code unless explicitly unlocked, and was run once with a configuration recorded before any of its results were computed.
+
+\paragraph{Metrics and selection rules.}
+The \ric{} is the Spearman correlation between scores and targets across tradable stocks, averaged over dates, with Newey--West $t$-statistics (10 lags)~\cite{newey1987simple}.
+Paired comparisons use a moving-block bootstrap~\cite{kunsch1989jackknife} of daily differences (21-day blocks, 2,000 draws).
+For portfolios we report the annualized net active return, the information ratio (IR), the six-factor alpha and the one-way turnover.
+All 70 development runs are registered, and the Deflated Sharpe ratio (DSR)~\cite{bailey2014deflated} uses their number and the variance of their Sharpe ratios.
+Rules fixed beforehand: models are compared by net IR at 5\,bp; a more complex model replaces a simpler one only if a bootstrap interval of their \ric{} or return difference excludes zero; and a result is established only if its $t$ exceeds 2 \emph{and} its DSR exceeds 0.95.

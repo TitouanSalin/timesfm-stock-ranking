@@ -1,0 +1,44 @@
+# Primary specification. Rationale in docs/SPEC.md.
+# Changing any value after results have been seen is a new experiment and must
+# be recorded in experiments/registry.jsonl.
+spec_version: 1
+
+target:
+  horizon: 5            # trading days held
+  skip: 1               # signal at close t, execution at close t+1
+
+universe:
+  train_size: 1000      # largest stocks by market cap, point in time
+  trade_pool: 500       # the tradable set is picked from this many largest stocks
+  trade_size: 100       # most liquid stocks in the pool
+  min_price: 5.0
+  min_history: 252      # trading days of history required before entry
+  adv_window: 63        # window of the median dollar volume
+
+walk_forward:
+  panel_start: "1995-01-01"
+  panel_end: "2025-12-31"       # last date covered by crsp.dsf_v2 in this WRDS edition
+  first_test_year: 2005
+  last_dev_year: 2021
+  holdout_start: "2022-01-01"   # touched once, with the final frozen configuration
+  inner_val_years: 3
+
+portfolio:
+  n_positions: 20
+  exit_rank: 40         # a holding is sold once its rank falls below this
+  max_weight: 0.075     # 1.5 x the 5% equal weight
+
+costs_bps_per_side:
+  optimistic: 2.0
+  central: 5.0
+  prudent: 10.0
+
+# Additional scenario: each stock's closing half spread on the trade date, plus this fee.
+measured_cost_fee_bps: 1.0
+
+evaluation:
+  primary_cost: central
+  hac_lags: 10
+  bootstrap_block: 21
+  bootstrap_reps: 2000
+  bootstrap_seed: 20261103

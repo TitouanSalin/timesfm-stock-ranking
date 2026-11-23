@@ -1,0 +1,26 @@
+\section{Introduction}
+\label{sec:intro}
+
+Foundation models for time series are pretrained on large collections of series and then forecast new ones zero-shot, often matching models trained on the target data~\cite{das2024timesfm,ansari2024chronos,woo2024moirai,rasul2023lagllama}.
+Stock prices are among the most studied series, so a natural question is whether these models can help select stocks.
+Forecasting accuracy is the wrong yardstick for that question.
+Daily returns are mostly noise; an investor needs a good \emph{ranking} of stocks on each date, and a portfolio built on that ranking must stay profitable after paying for its trades.
+At a horizon of a few days, trading costs can erase most of the gross gain~\cite{novymarx2016taxonomy}.
+
+Backtests in this domain are also easy to inflate.
+Accounting databases overwrite figures with later restatements, split-adjusted analyst estimates embed splits that had not yet happened~\cite{payne2003ibes}, and filtering surviving stocks hides delisting losses~\cite{shumway1997delisting}.
+Even without such leaks, reporting the best of many variants overstates performance~\cite{bailey2014deflated,harvey2016cross}.
+A meaningful evaluation of a foundation model must control all of these, and compare it with strong conventional baselines under the same rules.
+
+We ask whether TimesFM~3, zero-shot or fine-tuned, improves the cross-sectional ranking of U.S.\ stocks and the resulting portfolio, compared with simple factor signals and gradient-boosted trees, out of sample and after costs.
+Our contributions are:
+\begin{itemize}
+\item \textbf{A leakage-controlled protocol} for daily cross-sectional ranking (\cref{sec:setup}).
+It combines point-in-time accounting and analyst data, delisting returns, a one-day execution lag and purged walk-forward retraining.
+A registry of every development trial feeds Deflated Sharpe ratios, and a final test is opened once with a configuration frozen in advance.
+\item \textbf{A systematic evaluation of TimesFM~3} (\cref{sec:models,sec:dev}): zero-shot forecasts, forecasts as features, fine-tuning with a cross-sectional correlation loss at two training lengths over five seeds, and ensembles with simple signals.
+\item \textbf{Findings that survive an untouched test period} (\cref{sec:final}).
+Zero-shot TimesFM has no ranking skill, and fine-tuning gives it a real but modest signal that adds nothing to the best model.
+That model combines a grid-averaged LightGBM with accounting and analyst data and four classic signals, and it reproduces its development performance on 2022--2025.
+\item \textbf{Practical lessons} (\cref{sec:discussion}): turnover rather than ranking accuracy decides profitability, selecting hyperparameters on a noisy metric costs signal, and an information ratio earned in a single crisis does not carry over.
+\end{itemize}

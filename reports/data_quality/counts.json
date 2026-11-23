@@ -1,0 +1,12 @@
+{
+  "n_rows": 37077197,
+  "n_stocks": 16669,
+  "n_dates": 7802,
+  "first_date": "1995-01-03",
+  "last_date": "2025-12-31",
+  "n_delisting_rows": 12944,
+  "n_delisting_missing_return": 542,
+  "n_delisting_after_calendar": 0,
+  "n_delisting_same_session_as_trade": 0,
+  "n_flagged_without_regular_rows": 5876
+}

@@ -1,0 +1,32 @@
+\section{Discussion and Limitations}
+\label{sec:discussion}
+
+\paragraph{Why TimesFM struggles here.}
+Daily returns are close to unpredictable from their own past, so a forecaster trained for accuracy outputs a median near zero for most stocks.
+What remains is mostly a sense of scale: the zero-shot forecast width tracks future volatility, but volatility does not tell a winner from a loser.
+Fine-tuning with a ranking loss extracts a signal that overlaps with reversal and with LightGBM on market data (rank correlations 0.36 and 0.37).
+A univariate model only sees prices, while the edge of the primary model came from accounting and analyst data.
+
+\paragraph{Lessons for evaluating forecasters on markets.}
+\begin{enumerate*}[label=(\roman*)]
+\item Turnover decides profitability at short horizons: the baseline with the best ranking trailed the benchmark at 10\,bp.
+\item Selecting hyperparameters on a noisy validation metric costs signal; averaging over the grid was the only change to the tabular model with a significant \ric{} gain.
+\item An information ratio earned in one crisis does not carry over: our best development trial lost half its IR on the final test.
+\item The trial variance in the Deflated Sharpe ratio must include \emph{all} trials; an early version of our scripts used only the models being compared, which inflated the DSR.
+\end{enumerate*}
+
+\paragraph{Limitations.}
+Four test years cannot establish an IR of 0.6, and the development DSRs stay below 0.95.
+We tested a single univariate fine-tuning recipe (one loss, one set of trainable layers, one learning rate, two lengths) without low-rank adaptation or multivariate attention, so our negative result concerns this recipe.
+The TimesFM~3 pretraining corpus reportedly extends into 2023 and may include financial series; any overlap would favour TimesFM and so strengthens our negative findings.
+About 3\% of training steps had a non-finite gradient and were skipped, not repaired.
+We studied 100 liquid large caps, long-only, with a market beta near 1.2; costs are a fixed rate per trade, without market impact or taxes.
+Finally, the databases we used are not updated in real time, and the TimesFM~3 weights are licensed for non-commercial use only.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Under a protocol that controls look-ahead, survivorship and multiple testing, TimesFM~3 does not pick stocks better than conventional tools.
+Zero-shot, it has no ranking skill; fine-tuned for ranking, it learns a real but modest signal, similar to what gradient boosting extracts from prices, and adds nothing to a model that also sees accounting and analyst data.
+That model, an equal-weight ensemble of grid-averaged LightGBM and four classic signals, reproduced its development performance on an untouched four-year test (IR 0.60 against 0.64), a more credible estimate than its development figures alone, though not yet a significant one.
+Foundation models will likely need inputs beyond a single price series, and objectives that account for trading costs, to compete on this task.

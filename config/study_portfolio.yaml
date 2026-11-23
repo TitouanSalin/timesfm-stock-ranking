@@ -1,0 +1,26 @@
+# Ensembles and turnover control, on the development period only.
+# This list is fixed before seeing its results. Every run counts as a trial in the
+# Deflated Sharpe, so adding runs after the fact has a cost.
+
+ensembles:
+  lightgbm: [lightgbm]
+  rules: [reversal, momentum]
+  lgbm_rules: [lightgbm, reversal, momentum]
+  all: [lightgbm, ridge, reversal, momentum, timesfm_returns_trade]
+
+runs:
+  # Do ensembles add anything at the current settings?
+  - {model: rules, smooth: 1, exit_rank: 40}
+  - {model: lgbm_rules, smooth: 1, exit_rank: 40}
+  - {model: all, smooth: 1, exit_rank: 40}
+  # Does averaging scores over past days or a wider buffer reduce turnover without losing the signal?
+  - {model: lightgbm, smooth: 1, exit_rank: 60}
+  - {model: lightgbm, smooth: 5, exit_rank: 40}
+  - {model: lightgbm, smooth: 5, exit_rank: 60}
+  - {model: lightgbm, smooth: 10, exit_rank: 40}
+  - {model: lightgbm, smooth: 10, exit_rank: 60}
+  - {model: lgbm_rules, smooth: 1, exit_rank: 60}
+  - {model: lgbm_rules, smooth: 5, exit_rank: 40}
+  - {model: lgbm_rules, smooth: 5, exit_rank: 60}
+  - {model: lgbm_rules, smooth: 10, exit_rank: 40}
+  - {model: lgbm_rules, smooth: 10, exit_rank: 60}

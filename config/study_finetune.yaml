@@ -1,0 +1,12 @@
+# Fourth study, on the development period only, fixed before seeing its results.
+# Question: does fine-tuned TimesFM add to the reversal signal and to the working candidate?
+# Every run counts as a trial.
+
+ensembles:
+  avg3: [lightgbm_fund_ana_avg, lightgbm_fund_ana_avg_seed1, lightgbm_fund_ana_avg_seed2]
+  ft_reversal: [tfm_finetuned, reversal]
+  avg3_signals_ft: [avg3, reversal, momentum, revision, sue, tfm_finetuned]
+
+runs:
+  - {model: ft_reversal, smooth: 1, exit_rank: 40}
+  - {model: avg3_signals_ft, smooth: 1, exit_rank: 40}

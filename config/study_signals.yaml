@@ -1,0 +1,19 @@
+# Second study, on the development period only, fixed before seeing its results.
+# Question: do the analyst signals, which have little correlation with LightGBM, improve
+# an equal-weight ensemble, and what does a wider exit buffer give at the same time?
+# Every run counts as a trial in the Deflated Sharpe.
+
+ensembles:
+  fund_ana: [lightgbm_fund_ana]
+  fund_ana_rules: [lightgbm_fund_ana, reversal, momentum]
+  fund_ana_signals: [lightgbm_fund_ana, reversal, momentum, revision, sue]
+  signals: [reversal, momentum, revision, sue]
+
+runs:
+  - {model: fund_ana, smooth: 1, exit_rank: 60}
+  - {model: fund_ana_rules, smooth: 1, exit_rank: 40}
+  - {model: fund_ana_rules, smooth: 1, exit_rank: 60}
+  - {model: fund_ana_signals, smooth: 1, exit_rank: 40}
+  - {model: fund_ana_signals, smooth: 1, exit_rank: 60}
+  - {model: signals, smooth: 1, exit_rank: 40}
+  - {model: signals, smooth: 1, exit_rank: 60}

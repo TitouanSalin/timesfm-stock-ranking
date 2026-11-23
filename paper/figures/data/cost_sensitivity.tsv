@@ -1,0 +1,4 @@
+cost	candidate	candidate_turnover	reversal	reversal_turnover	lightgbm	lightgbm_turnover	tfmft	tfmft_turnover	tfmzs	tfmzs_turnover	momentum	momentum_turnover
+2	8.227	2385.671	9.872	4941.529	6.553	4346.951	6.414	3535.478	-1.874	1077.252	1.352	214.906
+5	6.796	2385.671	6.907	4941.529	3.945	4346.951	4.293	3535.478	-2.521	1077.252	1.223	214.906
+10	4.41	2385.671	1.966	4941.529	-0.402	4346.951	0.757	3535.478	-3.598	1077.252	1.009	214.906

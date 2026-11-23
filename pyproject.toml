@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qef"
+version = "1.0.0"
+description = "Leakage-controlled evaluation of TimesFM 3 for daily cross-sectional ranking of U.S. stocks"
+readme = "README.md"
+license = "MIT"
+authors = [{ name = "Titouan Salin" }]
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "pandas",
+    "pyarrow",
+    "duckdb",
+    "scipy",
+    "scikit-learn",
+    "lightgbm",
+    "pyyaml",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "wrds",
+]
+
+[project.optional-dependencies]
+# TimesFM 3 zero-shot forecasts and fine-tuning (GPU). The weights are under a non-commercial license.
+timesfm = ["torch", "timesfm==3.0.2"]
+dev = ["pytest"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = "-q"

@@ -1,0 +1,25 @@
+{
+  "gpu": "NVIDIA RTX A4500",
+  "gpu_memory_gb": 19.6,
+  "total_parameters_millions": 330.7,
+  "train_windows": 1425187,
+  "nan_diagnosis": {
+    "anomaly": "Function 'SqrtBackward0' returned nan values in its 0th output."
+  },
+  "runs": {
+    "correlation": {
+      "training": {
+        "first_quarter_loss": 0.014157768198288977,
+        "last_quarter_loss": -0.046567473872564734,
+        "skipped_steps": 0,
+        "seconds": 282.6
+      },
+      "validation": {
+        "pinball": 0.32319300687374847,
+        "rank_ic": 0.03031441595841337,
+        "rank_ic_t": 2.529408256283516,
+        "n_windows": 49205
+      }
+    }
+  }
+}

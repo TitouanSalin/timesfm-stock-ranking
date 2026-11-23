@@ -1,0 +1,18 @@
+# Exact versions behind the reported results (Python 3.12.16).
+# Main environment:
+duckdb==2.0.0
+lightgbm==4.7.0
+numpy==2.5.4
+pandas==2.2.3
+psycopg2-binary==2.9.13
+pyarrow==26.0.0
+pytest==9.2.0
+PyYAML==6.0.3
+scikit-learn==1.9.1
+scipy==1.18.1
+SQLAlchemy==2.0.56
+wrds==3.5.0
+# TimesFM environment, installed on top of the main one:
+safetensors==0.8.0
+timesfm==3.0.2
+torch==2.15.0

@@ -1,0 +1,41 @@
+# Licensed WRDS data and everything derived from it at the stock level must never be
+# committed or redistributed. data/ may be a symlink to a larger disk.
+/data
+*.parquet
+*.csv
+
+# Inventory of the tables of one WRDS subscription
+reports/inventory/
+
+# Job logs
+/logs/
+
+# Credentials
+.pgpass
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Model artifacts (the TimesFM weights may not be redistributed)
+*.safetensors
+*.ckpt
+checkpoints/
+
+# LaTeX build files
+*.aux
+*.bbl
+*.blg
+*.brf
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.cut
+*.zip

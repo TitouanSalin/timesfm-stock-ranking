@@ -1,0 +1,56 @@
+\section{Models}
+\label{sec:models}
+
+\paragraph{Simple signals.}
+Four signals need no fitting: 12--1 momentum~\cite{jegadeesh1993returns}, minus the past five-day return (reversal)~\cite{jegadeesh1990evidence}, the standardized earnings surprise (SUE)~\cite{livnat2006comparing}, and the three-month revision of the consensus forecast scaled by price~\cite{chan1996momentum}.
+
+\begin{table}[t]
+\caption{Features. Each value at date $t$ only uses data available at the close of $t$; stock-level variables are replaced by their centred percentile rank within each date over the training universe.}
+\label{tab:features}
+\footnotesize
+\begin{tabular}{@{}p{0.25\linewidth}p{0.71\linewidth}@{}}
+\toprule
+Group & Variables \\
+\midrule
+Past returns (11) & log returns over 1, 5, 10, 21, 63, 126 and 252 days; 12--1 momentum; gaps to the 20-, 50- and 200-day moving averages of the log price \\
+Risk (8) & drawdown from the 252-day high; volatility over 5, 21 and 63 days; largest daily return over 21 days; 63-day skewness; 252-day market beta; 63-day idiosyncratic volatility \\
+Liquidity and size (6) & log 21-day dollar volume; 5- to 63-day volume ratio; 21-day share turnover; 21-day Amihud illiquidity; log market value; log listing age \\
+Market (3) & market return over 5 and 21 days; 21-day market volatility (not ranked) \\
+Accounting (13) & return on assets and on equity; gross profitability; leverage; cash to assets; current ratio; asset, sales and earnings growth; book-to-market; earnings, sales and EBITDA yields \\
+Analysts (7) & consensus EPS to price; its 1- and 3-month revisions; balance of upward and downward revisions; dispersion; log number of analysts; standardized earnings surprise \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Tabular models.}
+The market features are 25 stock-level variables (returns from 1 to 252 days, gaps to moving averages, volatility, beta, idiosyncratic volatility, liquidity and size) and 3 market-level ones.
+We add 13 accounting variables (Acc) and 7 analyst variables (Ana), listed in \cref{tab:features}.
+Stock-level variables are replaced by their centred percentile rank within each date.
+LightGBM~\cite{ke2017lightgbm} (learning rate 0.02, 50\% feature and row subsampling, L2 penalty 10) has a grid of 7 or 31 leaves, 500 or 5,000 minimum samples per leaf and 50 to 400 rounds, and one setting is \emph{selected} each year on validation.
+Because the selection changed in almost every year, we also test a \emph{grid average}: the four tree settings are fit on all past data, and the within-date ranks of their predictions after 100, 200 and 400 rounds are averaged (12 models).
+
+\paragraph{TimesFM~3 zero-shot.}
+TimesFM~3~\cite{timesfm3} is a decoder-only transformer with 330.7M parameters that reads 32-step input patches and writes 64-step output patches with quantiles from 0.1 to 0.9.
+In univariate mode, each forecast reads up to the last 512 daily returns of a stock, with missing days set to zero.
+The score is the forecast cumulative return over $t{+}2$ to $t{+}6$; we also test the log price index as input.
+The forecast width and asymmetry, added with the score as ranked LightGBM features, are computed over the training universe.
+The width tracks the realized volatility of the next five days (rank correlation 0.60), which confirms that the model is fed correctly.
+
+\paragraph{Fine-tuning.}
+The package documents only inference and its decoding blocks gradients; calling the undecorated function reproduces the inference outputs exactly.
+We train the last four transformer layers and the output head (66.3M parameters).
+Each step draws one training date and 64 stocks of the training universe with a full 512-day context.
+The score $s_i$ sums the median forecasts over $t{+}2$ to $t{+}6$, and the loss is minus its correlation with the realized sum of returns $y_i$:
+\begin{equation}
+\mathcal{L} = -\frac{\sum_i (s_i-\bar s)(y_i-\bar y)}{\lVert s-\bar s\rVert\,\lVert y-\bar y\rVert},
+\label{eq:loss}
+\end{equation}
+which rewards the ranking within a date and ignores the market level.
+We use AdamW (learning rate $3\times10^{-5}$, weight decay 0.01) with gradient clipping at 1, and skip the steps whose gradient is not finite (about 3\%, from a square root in the model's input normalization).
+These settings, with 1,000 steps, were fixed on data before 2005, so no development year was used to tune them.
+The model is retrained every three years on all windows labelled before each block, with five seeds whose within-date ranks are averaged.
+One follow-up, declared in advance after the development results, changes only the number of steps to 10,000, which takes about 48 minutes per run on one RTX A4500 GPU.
+
+\paragraph{Ensembles.}
+Ensembles average the within-date percentile ranks of their members, with equal weights and nothing fitted, and every ensemble was listed before its results were computed.
+The \textbf{primary model} gives equal weights to the grid-averaged LightGBM with market, accounting and analyst features (averaged over three seeds) and to the four simple signals.
